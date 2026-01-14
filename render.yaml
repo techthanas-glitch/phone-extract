@@ -1,4 +1,5 @@
 services:
+  # Backend API (FastAPI + Python)
   - type: web
     name: phone-extract-api
     env: docker
@@ -11,6 +12,20 @@ services:
       - key: UPLOAD_DIR
         value: /tmp/uploads
       - key: ALLOWED_ORIGINS
-        value: https://phone-extract.vercel.app
+        value: https://phone-extract-frontend.onrender.com
     healthCheckPath: /health
+    autoDeploy: true
+
+  # Frontend (Next.js)
+  - type: web
+    name: phone-extract-frontend
+    env: node
+    region: oregon
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        value: https://phone-extract-api.onrender.com
     autoDeploy: true
