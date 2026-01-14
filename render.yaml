@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: phone-extract-api
+    env: docker
+    region: oregon
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:///./phone_extract.db
+      - key: UPLOAD_DIR
+        value: /tmp/uploads
+      - key: ALLOWED_ORIGINS
+        value: https://phone-extract.vercel.app
+    healthCheckPath: /health
+    autoDeploy: true
